@@ -1,0 +1,48 @@
+.login-container {
+  min-height: 80vh;
+  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.05);
+  border-radius: 8px;
+  overflow: hidden;
+  /* margin: 40px auto; */
+  max-width: 960px;
+  margin-left:200px;
+  padding-top: 80px;
+
+}
+
+.login-box h1 {
+  font-size: 2.2rem;
+}
+
+.login-box h2 {
+  font-size: 1.1rem;
+  color: #888;
+}
+
+.login-box .form-control {
+  height: 50px;
+  font-size: 1rem;
+}
+
+.login-box button {
+  height: 50px;
+  font-size: 1.1rem;
+}
+
+.login-box a {
+  transition: color 0.2s;
+}
+
+.login-box a:hover {
+  color: #0d6efd;
+}
+
+.login-box .social-icons img {
+  height: 36px;
+  width: 36px;
+  transition: transform 0.2s;
+}
+
+.login-box .social-icons img:hover {
+  transform: scale(1.1);
+}

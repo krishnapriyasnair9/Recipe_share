@@ -1,0 +1,182 @@
+{% extends 'base_user.html' %}
+{% load static %}
+{% block title %}yourrecipes - Pinch of Yum{% endblock %}
+{% block extra_css %}
+<style>
+/* Responsive card grid */
+.wrappers {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr); /* exactly 4 columns */
+  gap: 2rem;
+  padding: 2rem;
+  align-items: start; 
+  margin-top: 5%;
+  /* remove width: 200px; or set width: 100% (or a wider container) */
+  width: 100%;
+  max-width: 1200px; /* optional max width */
+  margin-left: auto;
+  margin-right: auto;
+}
+
+/* Recipe Card Styles */
+.wrapper-recipe-cards {
+  display: flex;
+  flex-direction: column;
+  background: #fff;
+  border-radius: 12px;
+  overflow: visible;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.15);
+  transition: all 0.3s ease-in-out;
+  position: relative;
+  z-index: 1;
+}
+
+.wrapper-recipe-image {
+  width: 100%;
+  height: 180px;
+  object-fit: cover;
+  display: block;
+  border-radius: 12px;
+}
+
+.wrapper-recipe-title {
+  font-size: 20px;
+  padding: 10px;
+  color: #333;
+}
+
+.wrapper-view-more {
+  padding: 0 10px 10px;
+  color: #007bff;
+  cursor: pointer;
+  text-decoration: underline;
+  display: block;
+}
+
+.wrapper-recipe-details {
+  position: absolute;
+  left: 0;
+  right: 0;
+  top: 100%;
+  background: #fff;
+  border-radius: 0 0 12px 12px;
+  box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
+  max-height: 0;
+  overflow: hidden;
+  padding: 0 10px;
+  opacity: 0;
+  transition: max-height 0.4s ease, padding 0.3s ease, opacity 0.3s ease;
+  z-index: 10;
+  border-radius: 12px;
+}
+
+.wrapper-recipe-cards.wrapper-expanded {
+  z-index: 100;
+}
+.wrapper-recipe-cards.wrapper-expanded .wrapper-recipe-details {
+  max-height: 300px;
+  padding: 10px;
+  opacity: 1;
+  overflow-y: auto;
+}
+
+.wrapper-card-actions {
+  margin-top: 10px;
+  display: flex;
+  justify-content: space-between;
+}
+
+.wrapper-edit-btn,
+.wrapper-delete-btn {
+  padding: 5px 10px;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  color: #fff;
+}
+
+.wrapper-edit-btn {
+  background-color: #ffc107;
+}
+
+.wrapper-delete-btn {
+  background-color: #dc3545;
+}
+
+@media (max-width: 600px) {
+  .wrapper-recipe-title {
+    font-size: 18px;
+  }
+
+  .wrapper-view-more {
+    font-size: 14px;
+  }
+
+  .wrapper-edit-btn,
+  .wrapper-delete-btn {
+    font-size: 14px;
+    padding: 4px 8px;
+  }
+}
+</style>
+{% endblock %}
+
+{% block content %}
+
+<div class="wrappers">
+  {% for recipe in recipes %}
+  <div class="wrapper-recipe-cards">
+    {% if recipe.image %}
+    <img src="{{ recipe.image.url }}" class="wrapper-recipe-image" alt="Recipe Image">
+    {% else %}
+    <img src="{% static 'path/to/default-image.jpg' %}" alt="Default Image">
+    {% endif %}
+    <h3 class="wrapper-recipe-title">{{ recipe.title }}</h3>
+    <a href="#" class="wrapper-view-more">View More</a>
+
+    <div class="wrapper-recipe-details">
+      <p><strong>Ingredients:</strong> {{ recipe.ingredients }}</p>
+      <p><strong>Description:</strong> {{ recipe.description }}</p>
+      <div class="wrapper-card-actions">
+        <a href="{% url 'userdashboard' %}?edit_id={{ recipe.id }}" class="btn btn-sm btn-warning">Edit</a>
+
+
+        <a href="{% url 'delete_recipe' recipe.id %}" class="wrapper-delete-btn" onclick="return confirm('Are you sure you want to delete this recipe?');">
+        Delete
+        </a>
+      </div>
+    </div>
+  </div>
+  {% empty %}
+  <p>No recipes uploaded yet.</p>
+  {% endfor %}
+</div>
+
+<script>
+  document.addEventListener('DOMContentLoaded', function () {
+    const viewMoreLinks = document.querySelectorAll('.wrapper-view-more');
+
+    viewMoreLinks.forEach(link => {
+      link.addEventListener('click', function (e) {
+        e.preventDefault();
+        const clickedCard = this.closest('.wrapper-recipe-cards');
+
+        // Collapse all others
+        document.querySelectorAll('.wrapper-recipe-cards.wrapper-expanded').forEach(card => {
+          if (card !== clickedCard) {
+            card.classList.remove('wrapper-expanded');
+            const otherLink = card.querySelector('.wrapper-view-more');
+            if (otherLink) otherLink.textContent = 'View More';
+          }
+        });
+
+        // Toggle current
+        clickedCard.classList.toggle('wrapper-expanded');
+        this.textContent = clickedCard.classList.contains('wrapper-expanded') ? 'View Less' : 'View More';
+      });
+    });
+  });
+</script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+<script src="{% static 'js/userdash.js' %}"></script>
+{% endblock %}

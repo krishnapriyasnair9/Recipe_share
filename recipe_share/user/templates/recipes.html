@@ -1,0 +1,139 @@
+{% extends 'base_user.html' %}
+{% load static %}
+{% block content %}
+<!-- Hero Section -->
+<section class="recipe-hero">
+  <div class="hero-overlay">
+    <h1 class="hero-title">Recipes</h1>
+    <p class="hero-subtitle">Daily new Recipes and Cooking tips.</p>
+  </div>
+</section>
+
+<div class="recipes-wrapper">
+  <div class="container">
+    <h1 class="title">Recipe Book</h1>
+
+   <form class="filter-bar mb-3 d-flex align-items-center" role="search" method="get" action="{% url 'recipes' %}">
+  <input type="text" class="form-control me-2" id="searchInput" name="q" placeholder="Search recipes..." 
+         value="{{ search_query }}" />
+  <button class="btn btn-danger custom-text-white" type="submit">Search</button>
+  {% if search_query %}
+    <a href="{% url 'recipes' %}" class="btn btn-outline-secondary ms-2">Clear</a>
+  {% endif %}
+</form>
+
+    <!-- Recipe Cards -->
+          <div class="recipe-grid" id="recipeGrid">
+            {% for recipe in recipes %}
+  <div class="recipe-card"
+       data-title="{{ recipe.title }}"
+       data-description="{{ recipe.description|escape }}"
+       data-image="{{ recipe.image.url }}"
+       data-ingredients="{{ recipe.ingredients|escape }}"
+       data-uploader="{{ recipe.user.username }}"
+       data-contact="{{ recipe.user.number }}">
+       
+    <img src="{{ recipe.image.url }}" alt="{{ recipe.title }}">
+    <div class="recipe-content">
+      <h3>{{ recipe.title }}</h3>
+      <button class="view-more-btn">View More</button>
+    </div>
+  </div>
+  {% empty %}
+  <p>No recipes found.</p>
+  {% endfor %}
+        
+    </div>
+  </div>
+  </div>
+</div>
+
+<!-- Popup Modal -->
+<div class="modal" id="recipeModal">
+  <div class="modal-content">
+    <span class="close">&times;</span>
+    <h2 id="modalTitle">Recipe Title</h2>
+    <img id="modalImage" src="" alt="" class="img-fluid mb-3">
+    <p><strong>Uploader:</strong> <span id="modalUploader"></span></p>
+    <p><strong>Contact:</strong> <span id="modalContact"></span></p>
+    <p><strong>Ingredients:</strong> <span id="modalIngredients"></span></p>
+    <p><strong>Description:</strong> <span id="modalDescription"></span></p>
+
+    <div class="comments-section">
+      <h3>Post a Comment</h3>
+      <input type="text" id="commentInput" placeholder="Write a comment..." />
+      <button id="postCommentBtn">Post</button>
+    </div>
+  </div>
+</div>
+
+{% endblock %}
+
+
+<!-- JS and CSS Assets -->
+ {% block extra_css %}
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css">
+<link rel="stylesheet" href="{% static 'css/recipes.css' %}">
+  
+
+
+{% endblock extra_css %}
+
+{% block extra_js %}
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+<script src="{% static 'js/recipes.js' %}"></script>
+<script src="{% static 'js/userdash.js' %}"></script>
+<script>
+  document.addEventListener('DOMContentLoaded', () => {
+  const modal = document.getElementById('recipeModal');
+  const modalTitle = document.getElementById('modalTitle');
+  const modalImage = document.getElementById('modalImage');
+  const modalUploader = document.getElementById('modalUploader');
+  const modalContact = document.getElementById('modalContact');
+  const modalIngredients = document.getElementById('modalIngredients');
+  const modalDescription = document.getElementById('modalDescription');
+  const closeBtn = modal.querySelector('.close');
+
+  // Function to open modal and fill content
+  function openModal(card) {
+    modalTitle.textContent = card.dataset.title || 'No Title';
+    modalImage.src = card.dataset.image || '';
+    modalImage.alt = card.dataset.title || 'Recipe Image';
+    modalUploader.textContent = card.dataset.uploader || 'Unknown';
+    modalContact.textContent = card.dataset.contact || 'No contact info';
+    modalIngredients.textContent = card.dataset.ingredients || 'No ingredients listed';
+    modalDescription.textContent = card.dataset.description || 'No description available';
+
+    modal.style.display = 'block';
+  }
+
+  // Close modal
+  function closeModal() {
+    modal.style.display = 'none';
+  }
+
+  // Click on View More button opens modal
+  document.querySelectorAll('.view-more-btn').forEach(button => {
+    button.addEventListener('click', (e) => {
+      // Find closest recipe-card parent
+      const card = e.target.closest('.recipe-card');
+      if (card) {
+        openModal(card);
+      }
+    });
+  });
+
+  // Close modal on clicking close button
+  closeBtn.addEventListener('click', closeModal);
+
+  // Close modal on clicking outside modal content
+  window.addEventListener('click', (e) => {
+    if (e.target === modal) {
+      closeModal();
+    }
+  });
+});
+
+</script>
+{% endblock extra_js %}
+

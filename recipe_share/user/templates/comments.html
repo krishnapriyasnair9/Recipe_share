@@ -1,0 +1,67 @@
+{% extends "base_user.html" %}
+{% load static %}
+{% block title %}Comments - Pinch of Yum{% endblock %}
+
+
+{% block content %}
+  
+  
+  <style>
+    .wrapper .comment-card {
+  border: 1px solid #ddd;
+  border-radius: 10px;
+  margin-bottom: 20px;
+  padding: 15px;
+  background-color: #fff;
+  box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+  margin-top: 80px;
+}
+
+.wrapper .recipe-image {
+  width: 100%;
+  max-width: 200px;
+  border-radius: 10px;
+}
+
+.wrapper .comment {
+  background-color: #f8f9fa;
+  border-radius: 5px;
+  padding: 10px;
+  margin-top: 10px;
+}
+
+  </style>
+</head>
+
+  <div class="wrapper container my-5">
+  <h2 class="mb-4 text-danger">Comments on Your Recipes</h2>
+
+  {% for recipe in recipes %}
+    <div class="comment-card row align-items-start">
+      <div class="col-md-3">
+        <img src="{{ recipe.image.url }}" alt="{{ recipe.title }}" class="recipe-image" />
+      </div>
+      <div class="col-md-9">
+        <h4 class="text-primary">{{ recipe.title }}</h4>
+        {% for comment in recipe.comments.all %}
+          <div class="comment">
+            <strong>{{ comment.user.username }}:</strong> {{ comment.text }}
+          </div>
+        {% empty %}
+          <div class="comment">No comments yet.</div>
+        {% endfor %}
+      </div>
+    </div>
+  {% empty %}
+    <p>No recipes uploaded yet.</p>
+  {% endfor %}
+</div>
+
+    <!-- Example Card End -->
+
+    <!-- Repeat more recipe cards here dynamically using backend -->
+ 
+
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+  <script src="static/js/userdash.js"></script>
+{% endblock %}

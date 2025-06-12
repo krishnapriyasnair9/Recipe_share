@@ -1,0 +1,84 @@
+{% extends "base.html" %}
+{% load static %}
+{% block title %}About Me - Pinch of Yum{% endblock %}
+
+{% block extra_css %}
+  <link rel="stylesheet" href="{% static 'css/about.css' %}">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css">
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet" />
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/OwlCarousel2/2.3.4/assets/owl.carousel.min.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/OwlCarousel2/2.3.4/assets/owl.theme.default.min.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+  <link rel="stylesheet" href="{% static 'css/style.css' %}">
+{% endblock %}
+
+{% block content %}
+<!-- About Section -->
+<section id="about" style="display: flex; min-height: 70vh; color: white; font-family: Arial, sans-serif;">
+  <!-- Left side: Image -->
+  <div style="flex: 1; background: url('{% static "images/bg7.jpg" %}') center/cover no-repeat;"></div>
+
+  <!-- Right side: Text content -->
+  <div style="flex: 1; background-color: #000; padding: 50px; display: flex; flex-direction: column; justify-content: center;">
+    <h1 style="font-size: 7rem; font-weight: 100; text-transform: lowercase; margin: 0 0 1rem 0;">about</h1>
+    <p style="font-weight: bold; font-size: 1.1rem; line-height: 1.6; max-width: 500px;">
+      Welcome to Pinch Of Yum – a community-driven recipe sharing platform where food lovers from all walks of life come together to cook, share, and inspire. Our mission is to celebrate the joy of cooking by offering a space where anyone can upload their favorite recipes, discover new dishes, and connect with others through the love of food. Whether you're a home cook, a culinary enthusiast, or someone just exploring the kitchen, Pinch Of Yum is your destination to find mouthwatering meals and share your own creations with the world. Join us, and let's make cooking a shared experience!
+    </p>
+    <div style="margin-top: 2rem;">
+      <a href="#" class="text-white me-3" style="font-size: 1.5rem;"><i class="fab fa-facebook-f"></i></a>
+      <a href="#" class="text-white me-3" style="font-size: 1.5rem;"><i class="fab fa-twitter"></i></a>
+      <a href="#" class="text-white" style="font-size: 1.5rem;"><i class="fab fa-instagram"></i></a>
+    </div>
+  </div>
+</section>
+
+<!-- Additional About Content -->
+<section class="about-area section-padding-80">
+  <div class="container">
+    <div class="row">
+      <div class="col-12">
+        <p class="text-center">Here, you can share your favorite recipes, rate others’ creations, leave comments, and discover dishes from around the world. We’re committed to building a positive and flavorful space where everyone can contribute, learn, and grow through the magic of cooking.</p>
+      </div>
+    </div>
+
+    <div class="row align-items-center mt-5">
+      <div class="col-12 col-sm-6 col-lg-3">
+        <div class="single-cool-fact text-center">
+          <img src="{% static 'images/salad.png' %}" alt="">
+          <h3><span class="counter">1287</span></h3>
+          <h6>Amazing Recipes</h6>
+        </div>
+      </div>
+      <div class="col-12 col-sm-6 col-lg-3">
+        <div class="single-cool-fact text-center">
+          <img src="{% static 'images/hamburger.png' %}" alt="">
+          <h3><span class="counter">25</span></h3>
+          <h6>Burger Recipes</h6>
+        </div>
+      </div>
+      <div class="col-12 col-sm-6 col-lg-3">
+        <div class="single-cool-fact text-center">
+          <img src="{% static 'images/rib.png' %}" alt="">
+          <h3><span class="counter">471</span></h3>
+          <h6>Meat Recipes</h6>
+        </div>
+      </div>
+      <div class="col-12 col-sm-6 col-lg-3">
+        <div class="single-cool-fact text-center">
+          <img src="{% static 'images/pancake.png' %}" alt="">
+          <h3><span class="counter">326</span></h3>
+          <h6>Dessert Recipes</h6>
+        </div>
+      </div>
+    </div>
+
+    <div class="row mt-5">
+      <div class="col-12 text-center">
+        <img class="mb-4" src="{% static 'images/about.png' %}" alt="">
+        <p>Our recipe-sharing platform features a wide variety of popular and easy-to-make dishes from around the world. From comforting classics like Italian pasta and Indian chicken curry to quick favorites like pancakes, Caesar salad, and shakshuka, there's something for every taste and skill level. Whether you're in the mood for a rich chocolate cake or a warm bowl of ramen, our collection offers simple steps and tips to help you cook delicious meals at home.</p>
+      </div>
+    </div>
+  </div>
+</section>
+{% endblock %}

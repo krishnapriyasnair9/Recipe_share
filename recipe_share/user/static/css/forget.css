@@ -1,0 +1,117 @@
+.page-wrapper {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  min-height: calc(100vh - 160px); /* Adjust based on your navbar + footer height */
+  padding: 40px 20px;
+  background-color: #f5f5f5;
+  box-sizing: border-box;
+  /* Ensure it doesn’t overflow */
+  flex-grow: 1;
+}
+
+/* Add this if you want the footer to stick at the bottom */
+
+/* Improved wrapper styles */
+.wrapper {
+  background: white;
+  padding: 2.5rem;
+  border-radius: 12px;
+  box-shadow: 0 15px 25px rgba(0, 0, 0, 0.2);
+  width: 100%;
+  max-width: 400px;
+  text-align: center;
+}
+
+/* Form styling */
+.forgot-form h2 {
+  margin-bottom: 10px;
+  color: #333; /* Changed from red */
+  font-size: 1.5rem;
+}
+
+.forgot-form p {
+  color: #555;
+  font-size: 0.95rem;
+  margin-bottom: 20px;
+}
+
+.divider {
+  border: 0;
+  height: 1px;
+  background: #eee;
+  margin: 20px 0;
+}
+
+.form-group {
+  margin-bottom: 20px;
+  text-align: left;
+}
+
+.form-group label {
+  display: block;
+  margin-bottom: 8px;
+  color: #555;
+  font-size: 0.9rem;
+}
+
+.forgot-form input {
+  width: 100%;
+  padding: 12px;
+  margin-bottom: 5px;
+  border: 1px solid #ddd;
+  border-radius: 8px;
+  font-size: 1rem;
+  box-sizing: border-box;
+}
+
+.forgot-form button {
+  width: 100%;
+  padding: 12px;
+  background-color: #4a00e0; /* Changed from red */
+  color: white;
+  border: none;
+  border-radius: 8px;
+  font-size: 1rem;
+  cursor: pointer;
+  transition: background 0.3s;
+  margin-top: 10px;
+}
+
+.forgot-form button:hover {
+  background-color: #3700b3;
+}
+
+.back-link {
+  margin: 20px 0;
+}
+
+.back-link a {
+  color: #4a00e0;
+  text-decoration: none;
+  font-size: 0.9rem;
+}
+
+.quick-follow,
+.data-info,
+.auth-links {
+  margin-top: 20px;
+  padding-top: 20px;
+  border-top: 1px solid #eee;
+  font-size: 0.9rem;
+  color: #666;
+}
+
+.quick-follow h3 {
+  font-size: 1rem;
+  margin-bottom: 10px;
+}
+
+.auth-links a {
+  color: #4a00e0;
+  text-decoration: none;
+  margin: 0 5px;
+}
+
+

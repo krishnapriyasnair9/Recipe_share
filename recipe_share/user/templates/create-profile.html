@@ -1,0 +1,118 @@
+{% extends 'base_user.html' %}
+{% load static %}
+{% block title %}Create Profile{% endblock %}
+{% block content %}
+<style>
+  .wrapper {
+    box-sizing: border-box;
+    font-family: 'Poppins', sans-serif;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh;
+    padding: 40px 0;
+    margin-top: 5%;
+    width: 70%;
+    margin-left: 15%;
+    
+   
+  }
+
+  .wrapper .container {
+    background: url('{% static "images/res1.jpg" %}') no-repeat center center ;
+    opacity: 3px;
+    background-size: cover;
+    padding: 40px;
+    border-radius: 16px;
+    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    
+    width: 90%;
+    color: #fff;
+  }
+
+  .wrapper h2 {
+    text-align: center;
+    color: #fff;
+    margin-bottom: 20px;
+  }
+
+  .wrapper form label {
+    display: block;
+    margin-top: 15px;
+    color: #fff;
+    font-weight: 500;
+  }
+
+  .wrapper input,
+  .wrapper textarea {
+    width: 100%;
+    padding: 10px;
+    margin-top: 5px;
+    border-radius: 8px;
+    border: none;
+    background: rgba(255, 255, 255, 0.2);
+    color: #fff;
+  }
+
+  .wrapper input::placeholder,
+  .wrapper textarea::placeholder {
+    color: #eee;
+  }
+
+  .wrapper input:focus,
+  .wrapper textarea:focus {
+    outline: none;
+    background: rgba(255, 255, 255, 0.3);
+  }
+
+  .wrapper button {
+    margin-top: 20px;
+    padding: 12px 20px;
+    background-color: rgba(0, 123, 255, 0.8);
+    color: white;
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+    width: 100%;
+  }
+
+  .wrapper button:hover {
+    background-color: rgba(0, 86, 179, 0.9);
+  }
+
+  .wrapper a {
+    display: block;
+    text-align: center;
+    margin-top: 15px;
+    color: #fff;
+    text-decoration: underline;
+  }
+</style>
+
+<div class="wrapper">
+  <div class="container">
+    <h2>{% if profile %}Edit{% else %}Create{% endif %} Your Profile</h2>
+    <form id="profileForm" method="POST" enctype="multipart/form-data" action="{% url 'create_profile' %}">
+      {% csrf_token %}
+      <label>Name:
+        <input type="text" name="name" value="{{ profile.name|default:'' }}" placeholder="Enter your name" required />
+      </label>
+      <label>Address:
+        <textarea name="address" placeholder="Enter your address" required>{{ profile.address|default:'' }}</textarea>
+      </label>
+      <label>Profile Photo:
+        <input type="file" name="profilePhoto" accept="image/*" />
+      </label>
+      <button type="submit">{% if profile %}Update{% else %}Submit{% endif %}</button>
+      <a href="{% url 'userdashboard' %}">← Back to Home</a>
+    </form>
+  </div>
+</div>
+
+
+{% endblock %}
+
+

@@ -1,0 +1,264 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block title %}Home - Pinch of Yum{% endblock %}
+
+
+{% block content %}
+
+
+  <!-- Hero Section Start -->
+  <section class="hero-area">
+    
+    <div class="hero-slides owl-carousel">
+      <!-- Slide 1 -->
+      <div class="single-hero-slide d-flex align-items-center justify-content-center" style="background-image: url('{% static 'images/l1.jpg' %}'); height: 100vh; background-size: cover; background-position: center;">
+
+        <div class="container">
+          <div class="row justify-content-start">
+            <div class="col-lg-6">
+              <div class="hero-slides-content bg-dark bg-opacity-50 p-4 rounded text-white">
+                <h2 data-animation="fadeInUp" class="animate__animated">"Let your recipes tell a story."</h2>
+                <p data-animation="fadeInUp" class="animate__animated">Share your favorite dishes and explore recipes from fellow food lovers. RecipeShare is your home for delicious ideas and culinary creativity.</p>
+                <a href="{% url 'login' %}" class="btn btn-success mt-3 bg-danger" data-animation="fadeInUp">Get Started</a>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="single-hero-slide d-flex align-items-center justify-content-center" style="background-image: url('{% static 'images/l2.jpg' %}'); height: 100vh; background-size: cover; background-position: center;">
+
+        <div class="container">
+          <div class="row justify-content-start">
+            <div class="col-lg-6">
+              <div class="hero-slides-content bg-dark bg-opacity-50 p-4 rounded text-white">
+                <h2 data-animation="fadeInUp" class="animate__animated">"One platform. Endless flavors."</h2>
+                <p data-animation="fadeInUp" class="animate__animated">Join a passionate community where cooking meets sharing. Post your recipes, discover new tastes, and get inspired.</p>
+                <a href="{% url 'login' %}" class="btn btn-success mt-3 bg-danger" data-animation="fadeInUp">Get Started</a>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="single-hero-slide d-flex align-items-center justify-content-center" style="background-image: url('{% static 'images/l1.jpg' %}'); height: 100vh; background-size: cover; background-position: center;">
+
+        <div class="container">
+          <div class="row justify-content-start">
+            <div class="col-lg-6">
+              <div class="hero-slides-content bg-dark bg-opacity-50 p-4 rounded text-white">
+                <h2 data-animation="fadeInUp" class="animate__animated">"A pinch of passion in every post."</h2>
+                <p data-animation="fadeInUp" class="animate__animated">From simple snacks to gourmet meals—RecipeShare lets you browse, post, and connect through food.</p>
+                <a href="{% url 'login' %}" class="btn btn-success mt-3 bg-danger" data-animation="fadeInUp">Get Started</a>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <!-- You can duplicate this block for more slides -->
+    </div>
+  </section>
+  <!-- Hero Section End -->
+   <section class="top-catagory-area section-padding-80-0">
+        <div class="container">
+            <div class="row">
+                <!-- Top Catagory Area -->
+                <div class="col-12 col-lg-6">
+                  <div class="single-top-catagory" style="background-image: url('{% static 'images/bg3.jpg' %}');">
+
+                        <!-- <img src="img/bg-img/bg2.jpg" alt=""> -->
+                        <!-- Content -->
+                        <div class="top-cta-content">
+                            <h3>Strawberry Cake</h3>
+                            <h6>A soft, moist cake bursting with fresh strawberry flavor &amp; topped with creamy frosting. Perfect for any celebration or just a sweet treat!</h6>
+                            
+                        </div>
+                    </div>
+                </div>
+                <!-- Top Catagory Area -->
+                <div class="col-12 col-lg-6">
+                    <div class="single-top-catagory" style="background-image: url('{% static 'images/bg2.jpg' %}');">
+
+                        <!-- <img src="static/images/bg2.jpg" alt=""> -->
+                        <!-- Content -->
+                        <div class="top-cta-content">
+                            <h3>Chinesse Noodles</h3>
+                            <h6>Delicious stir-fried noodles tossed with fresh vegetables, savory sauces, and your choice of protein. A quick &amp; flavorful classic from Chinese cuisine!</h6>
+                            
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+    
+<!-- Contact Section -->
+<section class="contact-section section-padding-80" id="contact">
+    <div class="container">
+        <!-- Section Heading -->
+        <div class="row">
+            <div class="col-12 text-center">
+                <div class="section-heading">
+                    <h3>Contact For Any Query</h3>
+                </div>
+            </div>
+        </div>
+
+        <!-- Contact Info -->
+        <div class="row mb-5 text-center">
+            <div class="col-md-4">
+                <h5><span style="color: orange;">Booking</span></h5>
+                <p><i class="fa fa-envelope"></i> book@example.com</p>
+            </div>
+            <div class="col-md-4">
+                <h5><span style="color: orange;">General</span></h5>
+                <p><i class="fa fa-envelope"></i> info@example.com</p>
+            </div>
+            <div class="col-md-4">
+                <h5><span style="color: orange;">Technical</span></h5>
+                <p><i class="fa fa-envelope"></i> tech@example.com</p>
+            </div>
+        </div>
+
+        <!-- Google Map & Contact Form -->
+        <div class="row">
+            <!-- Map -->
+            <div class="col-md-6 mb-4">
+                <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d31464.971306468244!2d76.7892082424873!3d9.670666142974682!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3b07ca802d4e2735%3A0xc71e88f0b4e7e22c!2sPoonjar%2C%20Kerala!5e0!3m2!1sen!2sin!4v1747462156330!5m2!1sen!2sin" width="100%" height="300" style="border:0;" allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
+                
+            </div>
+
+            <!-- Form -->
+            <div class="col-md-6">
+    <form method="post">
+        {% csrf_token %}
+        <div class="form-group d-flex">
+            <input type="text" class="form-control me-2" name="name" placeholder="Your Name" required>
+            <input type="email" class="form-control" name="email" placeholder="Your Email" required>
+        </div>
+        <div class="form-group">
+            <input type="text" class="form-control" name="subject" placeholder="Subject" required>
+        </div>
+        <div class="form-group">
+            <textarea class="form-control" rows="4" name="message" placeholder="Message" required></textarea>
+        </div>
+        <button type="submit" class="btn delicious-btn mt-3 bg-danger">Send Message</button>
+    </form>
+    
+    {% if messages %}
+        {% for message in messages %}
+            <div class="alert alert-{{ message.tags }} mt-3">
+                {{ message }}
+            </div>
+        {% endfor %}
+    {% endif %}
+</div>
+        </div>
+    </div>
+</section>
+{% endblock %}
+
+
+  
+
+  
+{% block extra_css %}
+
+<link rel="stylesheet" href="{% static 'css/owl.carousel.min.css' %}">
+<link rel="stylesheet" href="{% static 'css/owl.theme.default.min.css' %}">
+
+<link rel="stylesheet" href="{% static 'css/animate.min.css' %}">
+<link rel="styleshhet" href="{% static 'css/style.css' %}">
+ <!-- Bootstrap Icons CSS -->
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css">
+
+  <!-- Bootstrap CSS -->
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet" />
+
+  <!-- Owl Carousel CSS -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/OwlCarousel2/2.3.4/assets/owl.carousel.min.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/OwlCarousel2/2.3.4/assets/owl.theme.default.min.css">
+
+  <!-- Animate.css -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+
+{% endblock %}
+
+{% block extra_js %}
+
+
+<!-- Custom JS -->
+  <script src="static/js/main.js"></script>
+<!-- JS Libraries -->
+
+  <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/OwlCarousel2/2.3.4/owl.carousel.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+  
+
+ 
+
+  <!-- Owl Carousel JS -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/OwlCarousel2/2.3.4/owl.carousel.min.js"></script>
+
+  
+
+  <!-- Owl Carousel Initialization -->
+  <script>
+    $(document).ready(function () {
+      $(".hero-slides").owlCarousel({
+        items: 1,
+        loop: true,
+        autoplay: true,
+        autoplayTimeout: 3000,
+        
+        nav: false,
+        dots: true,
+        animateOut: 'fadeOut',
+        animateIn: 'fadeIn',
+        navText: [
+          '<i class="bi bi-chevron-left fs-3 text-white"></i>',
+          '<i class="bi bi-chevron-right fs-3 text-white"></i>'
+        ]
+      });
+
+      function setAnimation(_elem) {
+        const animationEndEvent = "webkitAnimationEnd mozAnimationEnd MSAnimationEnd oanimationend animationend";
+        _elem.each(function () {
+          const $elem = $(this);
+          const animationType = "animate__" + $elem.data("animation");
+          $elem.addClass("animate__animated " + animationType).one(animationEndEvent, function () {
+            $elem.removeClass("animate__animated " + animationType);
+          });
+        });
+      }
+
+      const $carousel = $(".hero-slides");
+      const $firstSlide = $carousel.find(".owl-item").eq(0).find("[data-animation]");
+      setAnimation($firstSlide);
+
+      $carousel.on("changed.owl.carousel", function (e) {
+        const $currentSlide = $(".owl-item").eq(e.item.index).find("[data-animation]");
+        setAnimation($currentSlide);
+      });
+    });
+  </script>
+   <script>
+  $(document).ready(function(){
+    $('.owl-carousel').owlCarousel({
+      loop:true,
+      margin:10,
+      nav:true,
+      autoplay:true,
+      autoplayTimeout:4000,
+      items:3,
+      responsive:{
+        0:{items:1},
+        600:{items:2},
+        1000:{items:3}
+      }
+    });
+  });
+</script>
+  
+{% endblock %}
