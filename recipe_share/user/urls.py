@@ -14,9 +14,10 @@ urlpatterns = [
     path('upload-recipe/', views.upload_recipe, name='upload_recipe'),
     path('delete-recipe/<int:recipe_id>/', views.delete_recipe, name='delete_recipe'),
     path('post-comment/', views.post_comment, name='post_comment'),
+    path('forget-password/', views.forget_password, name='forget_password'),
+    path('verify-otp/', views.verify_otp, name='verify_otp'),
+    path('reset-password/', views.reset_password, name='reset_password'),
     
-    path('password_reset/', views.custom_password_reset_request, name='password_reset'),
-    path('password_reset_done/', views.password_reset_done_view, name='password_reset_done'),
 ]
 
 

@@ -1,7 +1,8 @@
 import json
 from venv import logger
+from django.conf import settings
 from django.contrib import messages  # ✅ Correct
-
+from django.core.mail import EmailMessage
 from django.http import JsonResponse
 from django.shortcuts import get_object_or_404, redirect, render
 from django.contrib.auth.hashers import make_password
@@ -17,8 +18,9 @@ from django.contrib.auth.decorators import login_required
 
 from .models import Recipe, Comment
 from django.views.decorators.csrf import csrf_exempt
-
-
+from django.contrib.auth import get_user_model
+import random
+from django.core.mail import send_mail
 # Create your views here.
 def upload_recipe(request):
     if request.method == 'POST':
@@ -108,22 +110,33 @@ def register(request):
         number = request.POST.get("number")
         password = request.POST.get("password")
 
-        # Email already exists?
+        # ✅ Check if username already exists
+        if CustomUser.objects.filter(username=username).exists():
+            messages.error(request, "Username already exists.")
+            return render(request, "register.html", {
+                "email": email,
+                "number": number,
+            })
+
+        # ✅ Check if email already exists
         if CustomUser.objects.filter(email=email).exists():
             messages.error(request, "Email already exists.")
-            return redirect("register")
+            return render(request, "register.html", {
+                "username": username,
+                "number": number,
+            })
 
-        # Save user
+        # Save new user
         user = CustomUser(
             username=username,
             email=email,
             number=number,
-            password=make_password(password)
+            password=make_password(password)  # securely hashed
         )
         user.save()
         messages.success(request, "Registration successful! Please login.")
         return redirect('login')
-    
+
     return render(request, "register.html")
 
 
@@ -346,33 +359,82 @@ def post_comment(request):
         return JsonResponse({'status': 'success'})
 
     return JsonResponse({'status': 'error', 'message': 'Invalid request method'})
-def custom_password_reset_request(request):
-    if request.method == "POST":
+User = get_user_model()
+
+def generate_otp():
+    return str(random.randint(100000, 999999))
+
+def forget_password(request):
+    if request.method == 'POST':
         email = request.POST.get('email')
-        associated_users = User.objects.filter(email=email)
+        user = CustomUser.objects.filter(email=email).first()
 
-        if associated_users.exists():
-            user = associated_users[0]
-            token = default_token_generator.make_token(user)
-            uid = urlsafe_base64_encode(force_bytes(user.pk))
-            domain = get_current_site(request).domain
-            reset_link = request.build_absolute_uri(
-                reverse('password_reset_confirm', kwargs={'uidb64': uid, 'token': token})
-            )
+        if not user:
+            messages.error(request, "No user found with this email.")
+            return redirect("forget_password")
 
-            subject = "Reset your password"
-            message = render_to_string('forgetpassword/password_reset_email.html', {
-                'user': user,
-                'reset_link': reset_link,
-            })
+        otp = str(random.randint(100000, 999999))
+        request.session['reset_email'] = email
+        request.session['reset_otp'] = otp
 
-            send_mail(subject, message, settings.DEFAULT_FROM_EMAIL, [user.email])
-            messages.success(request, "Password reset link sent to your email.")
-            return redirect('password_reset_done')
+        # ✅ Directly set sender email here
+        email_msg = EmailMessage(
+            subject='Your OTP for Password Reset',
+            body=f'Hi {user.username}, your OTP is: {otp}',
+            from_email='your-custom-sender@example.com',  # ✅ Override here
+            to=[email]
+        )
+        email_msg.send(fail_silently=False)
+
+        print("Sending OTP to:", email)
+        messages.success(request, "OTP has been sent to your email.")
+        return redirect('verify_otp')
+
+    return render(request, 'forgetpassword.html')
+
+def verify_otp(request):
+    if request.method == 'POST':
+        entered_otp = request.POST.get('otp')
+        actual_otp = request.session.get('reset_otp')
+
+        if entered_otp == actual_otp:
+            return redirect('reset_password')
         else:
-            messages.error(request, "No user is associated with this email.")
-            return redirect('password_reset')
+            return render(request, 'verifyotp.html', {'error': 'Invalid OTP'})
+    return render(request, 'verifyotp.html')
 
-    return render(request, 'forgetpassword/forgetpassword.html')
-def password_reset_done_view(request):
-    return render(request, 'forgetpassword/password_reset_done.html')
+def reset_password(request):
+    if request.method == 'POST':
+        password = request.POST.get('password')
+        confirm_password = request.POST.get('confirm_password')
+
+        if password != confirm_password:
+            messages.error(request, "Passwords do not match.")
+            return redirect('reset_password')
+
+        email = request.session.get('reset_email')
+
+        if not email:
+            messages.error(request, "Session expired. Please try again.")
+            return redirect('forget_password')
+
+        user = CustomUser.objects.filter(email=email).first()
+
+        if user:
+            user.password = make_password(password)
+            user.save()
+
+            # ✅ Clear session
+            request.session.flush()
+
+            # ✅ Show success message
+            messages.success(request, "Password reset successfully. Please login.")
+            
+            # ✅ Redirect to login page
+            return redirect('login')  # ← make sure this matches your login URL name
+
+        else:
+            messages.error(request, "User not found.")
+            return redirect('forget_password')
+
+    return render(request, 'resetpassword.html')
