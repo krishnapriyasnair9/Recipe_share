@@ -5,19 +5,18 @@ from django.conf import settings
 
 
 class CustomUser(models.Model):
-    
-    username = models.CharField(max_length=150, unique=True)
+    username = models.CharField(max_length=150,unique=True)
     email = models.EmailField(unique=True)
     number = models.CharField(max_length=15)
     password = models.CharField(max_length=128)
+
+    is_superuser = models.BooleanField(default=False)
+    is_staff = models.BooleanField(default=False)
     
 
     def __str__(self):
         return self.username
-    @property
-    def is_admin(self):
-        """Consider superusers as admins"""
-        return self.is_superuser or self.is_staff
+
 class UserProfile(models.Model):
     user = models.OneToOneField(CustomUser, on_delete=models.CASCADE)
     name = models.CharField(max_length=150)

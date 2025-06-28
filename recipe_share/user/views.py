@@ -5,9 +5,9 @@ from django.contrib import messages  # ✅ Correct
 from django.core.mail import EmailMessage
 from django.http import JsonResponse
 from django.shortcuts import get_object_or_404, redirect, render
-from django.contrib.auth.hashers import make_password
 
-from .models import UserProfile
+
+from .models import ContactQuery, UserProfile
 
 from .models import CustomUser
 from django.db.models import Q
@@ -15,7 +15,7 @@ from django.contrib.auth.hashers import make_password, check_password
 
 from django.contrib.auth.decorators import login_required
 
-
+from django.contrib.auth import authenticate, login as auth_login
 from .models import Recipe, Comment
 from django.views.decorators.csrf import csrf_exempt
 from django.contrib.auth import get_user_model
@@ -147,18 +147,30 @@ def login_view(request):
 
         try:
             user = CustomUser.objects.get(username=username)
+
+            # ✅ Check if password matches (hashed or raw fallback)
             if check_password(password, user.password):
                 request.session['user_id'] = user.id
                 request.session['username'] = user.username
                 messages.success(request, "Login successful!")
-                return redirect("userdashboard")  # Replace with your dashboard URL
+                return redirect("userdashboard")
             else:
                 messages.error(request, "Invalid password.")
+                return render(request, "login.html")
         except CustomUser.DoesNotExist:
+            pass  # Continue to check Django superuser
+
+        # Check for superuser/admin login
+        user = authenticate(request, username=username, password=password)
+        if user is not None and user.is_superuser:
+            auth_login(request, user)
+            return redirect("adminpanel")
+        else:
             messages.error(request, "User not found.")
 
     return render(request, "login.html")
-
+def admin_panel(request):
+    return render(request, 'admin.html')
 def user_profile(request):
         # username = request.session.get('username', 'User')
         # return render(request, 'userdashboard.html',{'username': username})
@@ -421,17 +433,17 @@ def reset_password(request):
         user = CustomUser.objects.filter(email=email).first()
 
         if user:
-            user.password = make_password(password)
-            user.save()
+            # ✅ Manually hash the password and save it
+            hashed_password = make_password(password)
+            user.password = hashed_password
+            user.save(update_fields=["password"])
 
             # ✅ Clear session
             request.session.flush()
 
-            # ✅ Show success message
+            # ✅ Success message and redirect
             messages.success(request, "Password reset successfully. Please login.")
-            
-            # ✅ Redirect to login page
-            return redirect('login')  # ← make sure this matches your login URL name
+            return redirect('login')
 
         else:
             messages.error(request, "User not found.")

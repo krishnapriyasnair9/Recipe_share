@@ -299,7 +299,7 @@
     <a onclick="showPage('recipes')"><i class="fas fa-list"></i> Listed Recipes</a>
     <a onclick="showPage('comments')"><i class="fas fa-comments"></i> Comments</a>
     <a onclick="showPage('enquiry')"><i class="fas fa-envelope"></i> Enquiry</a>
-    <a href="" class="text-danger"><i class="fas fa-sign-out-alt"></i> Logout</a>
+    <a href="{% url 'logout' %}" class="text-danger"><i class="fas fa-sign-out-alt"></i> Logout</a>
   </div>
 
   <div class="main">
@@ -317,49 +317,41 @@
     <div class="content-area" id="contentArea">
       <div id="dashboardPage">
         <div class="cards">
-          <div class="card blue" onclick="openCardWindow('Total Regd. Users', '3', '#2196F3')"> <h3>Total Regd. Users</h3><p>3</p> </div>
-          <div class="card red" onclick="openCardWindow('Total Listed Recipes', '5', '#f44336')"> <h3>Total Listed Recipes</h3><p>5</p> </div>
-          <div class="card black" onclick="openCardWindow('All Comments', '5', '#212121')"> <h3>All Comments</h3><p>5</p> </div>
-          <div class="card red" onclick="openCardWindow('Deleted Comments', '1', '#f44336')"> <h3>Deleted Comments</h3><p>1</p> </div>
-          <div class="card red" onclick="openCardWindow('Unread Enquiry', '0', '#f44336')"> <h3>Unread Enquiry</h3><p>0</p> </div>
-          <div class="card green" onclick="openCardWindow('Read Enquiry', '0', '#4CAF50')"> <h3>Read Enquiry</h3><p>0</p> </div>
+          <div class="card blue" onclick="openCardWindow('Total Regd. Users', '{{ user_count }}', '#2196F3')"> <h3>Total Regd. Users</h3><p>{{ user_count }}</p> </div>
+  <div class="card red" onclick="openCardWindow('Total Listed Recipes', '{{ recipe_count }}', '#f44336')"> <h3>Total Listed Recipes</h3><p>{{ recipe_count }}</p> </div>
+  <div class="card black" onclick="openCardWindow('All Comments', '{{ comment_count }}', '#212121')"> <h3>All Comments</h3><p>{{ comment_count }}</p> </div>
+  <div class="card red" onclick="openCardWindow('Deleted Comments', '{{ deleted_comment_count }}', '#f44336')"> <h3>Deleted Comments</h3><p>{{ deleted_comment_count }}</p> </div>
+  <div class="card red" onclick="openCardWindow('Unread Enquiry', '{{ unread_enquiry_count }}', '#f44336')"> <h3>Unread Enquiry</h3><p>{{ unread_enquiry_count }}</p> </div>
+  <div class="card green" onclick="openCardWindow('Read Enquiry', '{{ read_enquiry_count }}', '#4CAF50')"> <h3>Read Enquiry</h3><p>{{ read_enquiry_count }}</p> </div>
         </div>
       </div>
-      <div id="usersPage" style="display: none;">
+  {% load static %}
+
+<div id="usersPage" style="display: none;">
   <h2>Registered Users</h2>
   <div class="user-table">
     <table>
       <thead>
         <tr>
           <th>#</th>
-          <th>phone number</th>
+          <th>Phone Number</th>
           <th>Email</th>
           <th>Username</th>
-         
         </tr>
       </thead>
       <tbody>
+        {% for user in users %}
         <tr>
-          <td>1</td>
-          <td>46477746774774</td>
-          <td>jane@example.com</td>
-          <td>janedoe</td>
-         
+          <td>{{ forloop.counter }}</td>
+          <td>{{ user.number }}</td>
+          <td>{{ user.email }}</td>
+          <td>{{ user.username }}</td>
         </tr>
+        {% empty %}
         <tr>
-          <td>2</td>
-          <td>466545747948</td>
-          <td>john@example.com</td>
-          <td>johnsmith</td>
-          
+          <td colspan="4">No users found.</td>
         </tr>
-        <tr>
-          <td>3</td>
-          <td>4654753747887</td>
-          <td>alice@example.com</td>
-          <td>aliceb</td>
-          
-        </tr>
+        {% endfor %}
       </tbody>
     </table>
   </div>
@@ -368,79 +360,54 @@
 <div id="recipesPage" style="display: none;">
   <h2>Listed Recipes</h2>
   <div class="recipes-list">
+    {% for recipe in recipes %}
     <div class="recipe-card">
-      <img src="{% static 'images/about.png' %}" alt="Recipe Image">
-      <h3>Spaghetti Bolognese</h3>
-      <p><strong>Ingredients:</strong> Pasta, beef, tomato sauce</p>
-      <p><strong>Uploaded By:</strong> Jane Doe</p>
+      {% if recipe.image %}
+        <img src="{{ recipe.image.url }}" alt="Recipe Image">
+      {% else %}
+        <img src="{% static 'images/about.png' %}" alt="Recipe Image">
+      {% endif %}
+      <h3>{{ recipe.title }}</h3>
+      <p><strong>Ingredients:</strong> {{ recipe.ingredients }}</p>
+      <p><strong>Uploaded By:</strong> {{ recipe.user.username }}</p>
       <a href="#" onclick="toggleDescription(this)">View More</a>
       <div class="full-description" style="display: none;">
-        <p>This is a rich and hearty Italian dish made with slow-simmered ground beef in tomato sauce, seasoned with garlic and onions. Served over al dente spaghetti, it’s a family favorite!</p>
+        <p>{{ recipe.description }}</p>
       </div>
-      <button class="delete-btn" onclick="deleteRecipe(this)">Delete</button>
-    </div>
-    <div class="recipe-card">
-      <img src="{% static 'images/about.png' %}" alt="Recipe Image">
-      <h3>Spaghetti Bolognese</h3>
-      <p><strong>Ingredients:</strong> Pasta, beef, tomato sauce</p>
-      <p><strong>Uploaded By:</strong> Jane Doe</p>
-      <a href="#" onclick="toggleDescription(this)">View More</a>
-      <div class="full-description" style="display: none;">
-        <p>This is a rich and hearty Italian dish made with slow-simmered ground beef in tomato sauce, seasoned with garlic and onions. Served over al dente spaghetti, it’s a family favorite!</p>
-      </div>
-      <button class="delete-btn" onclick="deleteRecipe(this)">Delete</button>
-    </div>
-    <div class="recipe-card">
-      <img src="{% static 'images/about.png' %}" alt="Recipe Image">
-      <h3>Spaghetti Bolognese</h3>
-      <p><strong>Ingredients:</strong> Pasta, beef, tomato sauce</p>
-      <p><strong>Uploaded By:</strong> Jane Doe</p>
-      <a href="#" onclick="toggleDescription(this)">View More</a>
-      <div class="full-description" style="display: none;">
-        <p>This is a rich and hearty Italian dish made with slow-simmered ground beef in tomato sauce, seasoned with garlic and onions. Served over al dente spaghetti, it’s a family favorite!</p>
-      </div>
-      <button class="delete-btn" onclick="deleteRecipe(this)">Delete</button>
-    </div>
+      <a href="{% url 'admin_delete_recipe' recipe.id %}" class="delete-btn">Delete</a>
 
-    <!-- Add more recipe cards below as needed -->
+    </div>
+    {% empty %}
+    <p>No recipes found.</p>
+    {% endfor %}
   </div>
 </div>
 
-      <div id="commentsPage" style="display: none;">
+<div id="commentsPage" style="display: none;">
   <h2>Comments</h2>
   <div class="comments-list">
-    <!-- Example comment card -->
+    {% for comment in comments %}
     <div class="comment-card">
-      <img src="{% static 'images/about.png' %}" alt="Recipe Image" class="comment-recipe-img">
+      {% if comment.recipe.image %}
+        <img src="{{ comment.recipe.image.url }}" alt="Recipe Image" class="comment-recipe-img">
+      {% else %}
+        <img src="{% static 'images/about.png' %}" alt="Recipe Image" class="comment-recipe-img">
+      {% endif %}
       <div class="comment-details">
-        <h3 class="comment-recipe-title">Spaghetti Bolognese</h3>
-        <p><strong>Comment by:</strong> Jane Doe</p>
-        <p class="comment-text">This recipe is amazing! My family loved it.</p>
-        <button class="delete-btn" onclick="deleteComment(this)">Delete</button>
+        <h3 class="comment-recipe-title">{{ comment.recipe.title }}</h3>
+        <p><strong>Comment by:</strong> {{ comment.user.username }}</p>
+        <p class="comment-text">{{ comment.text }}</p>
+        <a href="{% url 'admin_delete_comment' comment.id %}" class="delete-btn">Delete</a>
+        
       </div>
     </div>
-
-    <div class="comment-card">
-      <img src="{% static 'images/about.png' %}" alt="Recipe Image" class="comment-recipe-img">
-      <div class="comment-details">
-        <h3 class="comment-recipe-title">Chicken Curry</h3>
-        <p><strong>Comment by:</strong> John Smith</p>
-        <p class="comment-text">Perfect blend of spices and easy to follow!</p>
-        <button class="delete-btn" onclick="deleteComment(this)">Delete</button>
-        <p><strong>Comment by:</strong> John Smith</p>
-        <p class="comment-text">Perfect blend of spices and easy to follow!</p>
-        <button class="delete-btn" onclick="deleteComment(this)">Delete</button>
-        <p><strong>Comment by:</strong> John Smith</p>
-        <p class="comment-text">Perfect blend of spices and easy to follow!</p>
-        <button class="delete-btn" onclick="deleteComment(this)">Delete</button>
-      </div>
-    </div>
-
-    <!-- Add more comment cards similarly -->
+    {% empty %}
+    <p>No comments available.</p>
+    {% endfor %}
   </div>
 </div>
 
-      <div id="enquiryPage" style="display: none;">
+<div id="enquiryPage" style="display: none;">
   <h2>Enquiries</h2>
   <div class="user-table">
     <table>
@@ -455,27 +422,26 @@
         </tr>
       </thead>
       <tbody>
+        {% for enquiry in enquiries %}
         <tr>
-          <td>1</td>
-          <td>Jane Doe</td>
-          <td>jane@example.com</td>
-          <td>Order Inquiry</td>
-          <td>is it possible to order recipe</td>
-          <td><a href="mailto:jane@example.com" class="reply-btn">Reply</a></td>
+          <td>{{ forloop.counter }}</td>
+          <td>{{ enquiry.name }}</td>
+          <td>{{ enquiry.email }}</td>
+          <td>{{ enquiry.subject }}</td>
+          <td>{{ enquiry.message }}</td>
+          <td><a href="{% url 'resolve_enquiry' enquiry.id %}" class="reply-btn">Reply</a>
+
         </tr>
+        {% empty %}
         <tr>
-          <td>2</td>
-          <td>John Smith</td>
-          <td>john@example.com</td>
-          <td>about login</td>
-          <td>to upload recipe we need to login</td>
-          <td><a href="mailto:john@example.com" class="reply-btn">Reply</a></td>
+          <td colspan="6">No enquiries found.</td>
         </tr>
-        <!-- Add more enquiry rows here -->
+        {% endfor %}
       </tbody>
     </table>
   </div>
 </div>
+
 
     </div>
   </div>
